@@ -1,28 +1,60 @@
+const { openmrsClient } = require("../services/openmrsService");
+const { buildQueryParams } = require("../utills/validation");
+
 // service for patient routes
 // get all patients from the FHIR server
+// This is not implemented by openmrs 
 const getPatients = async (params = {}) => {
   const queryString = buildQueryParams(params);
-  const url = `/Patient${queryString ? `?${queryString}` : ""}`;
-  const response = await openmrsClient.get(url);
-  return response.data;
+  const url = `/patient${queryString ? `?${queryString}` : ""}`;
+  try {
+    const response = await openmrsClient.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching patients:", error);
+    throw error;
+  }
 };
 
 // get a patient by id
-const getPatientById = async (id) => {
-  const response = await openmrsClient.get(`/Patient/${id}`);
-  return response.data;
+// Tested and working
+const getPatientByIdService = async (id) => {
+  console.log(id);
+  try {
+    const response = await openmrsClient.get(`/patient/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching patient by id:", error);
+    throw error;
+  }
 };
 
 // create a new patient
-const createPatient = async (patientData) => {
-  const response = await openmrsClient.post("/Patient", patientData);
-  return response.data;
+// Tested and working
+const createPatientService = async (patientData) => {
+  try {
+    const response = await openmrsClient.post("/patient", patientData);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating patient:", error);
+    throw error;
+  }
 };
 
 // update a patient
-const updatePatient = async (id, patientData) => {
-  const response = await openmrsClient.put(`/Patient/${id}`, patientData);
-  return response.data;
+const updatePatientService = async (id, patientData) => {
+  try {
+    const response = await openmrsClient.put(`/patient/${id}`, patientData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating patient:", error);
+    throw error;
+  }
 };
 
-module.exports = { getPatients, getPatientById, createPatient, updatePatient };
+module.exports = {
+  getPatients,
+  getPatientByIdService,
+  createPatientService,
+  updatePatientService,
+};

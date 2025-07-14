@@ -1,8 +1,13 @@
-const { getPatients, getPatientById, createPatient, updatePatient } = require("../services/patient-service");
+const {
+  getPatients,
+  getPatientByIdService,
+  createPatientService,
+  updatePatientService,
+} = require("../services/patient-service");
 
 // controller for patient routes
 // get all patients from the FHIR server
-const getPatients = async (req, res) => {
+const getAllPatients = async (req, res) => {
   try {
     const { _count, _offset, name, identifier } = req.query;
     const patients = await getPatients({
@@ -10,6 +15,7 @@ const getPatients = async (req, res) => {
       _offset,
       name,
       identifier,
+      
     });
     res.json(patients);
   } catch (error) {
@@ -23,7 +29,8 @@ const getPatients = async (req, res) => {
 const getPatientById = async (req, res) => {
   try {
     const { id } = req.params;
-    const patient = await getPatientById(id);
+    console.log(id);
+    const patient = await getPatientByIdService(id);
     if (!patient) {
       return res.status(404).json({ error: "Patient not found" });
     }
@@ -39,7 +46,7 @@ const getPatientById = async (req, res) => {
 const createPatient = async (req, res) => {
   try {
     const patientData = req.body;
-    const newPatient = await createPatient(patientData);
+    const newPatient = await createPatientService(patientData);
     res.status(201).json(newPatient);
   } catch (error) {
     res
@@ -53,7 +60,9 @@ const updatePatient = async (req, res) => {
   try {
     const { id } = req.params;
     const patientData = req.body;
-    const updatedPatient = await updatePatient(id, patientData);
+    console.log('patient data',patientData);
+    console.log('id',id);
+    const updatedPatient = await updatePatientService(id, patientData);
     res.json(updatedPatient);
   } catch (error) {
     res
@@ -62,4 +71,9 @@ const updatePatient = async (req, res) => {
   }
 };
 
-module.exports = { getPatients, getPatientById, createPatient, updatePatient };
+module.exports = {
+  getAllPatients,
+  getPatientById,
+  createPatient,
+  updatePatient,
+};

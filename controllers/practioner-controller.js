@@ -1,8 +1,8 @@
 const {
-  getPractitioners,
-  getPractitionerById,
-  createPractitioner,
-  updatePractitioner,
+  getPractitionersService,
+  getPractitionerByIdService,
+  createPractitionerService,
+  updatePractitionerService,
 } = require("../services/practioner-service");
 
 // controller for practioner routes
@@ -10,7 +10,7 @@ const {
 const getPractitioners = async (req, res) => {
   try {
     const { _count, _offset, name } = req.query;
-    const practitioners = await getPractitioners({
+    const practitioners = await getPractitionersService({
       _count,
       _offset,
       name,
@@ -27,7 +27,7 @@ const getPractitioners = async (req, res) => {
 const getPractitionerById = async (req, res) => {
   try {
     const { id } = req.params;
-    const practitioner = await getPractitionerById(id);
+    const practitioner = await getPractitionerByIdService(id);
     if (!practitioner) {
       return res.status(404).json({ error: "Practitioner not found" });
     }
@@ -43,7 +43,7 @@ const getPractitionerById = async (req, res) => {
 const createPractitioner = async (req, res) => {
   try {
     const practitionerData = req.body;
-    const newPractitioner = await createPractitioner(practitionerData);
+    const newPractitioner = await createPractitionerService(practitionerData);
     res.status(201).json(newPractitioner);
   } catch (error) {
     res
@@ -57,7 +57,7 @@ const updatePractitioner = async (req, res) => {
   try {
     const { id } = req.params;
     const practitionerData = req.body;
-    const updatedPractitioner = await updatePractitioner(
+    const updatedPractitioner = await updatePractitionerService(
       id,
       practitionerData
     );
