@@ -21,6 +21,13 @@ const {
   updateObservation,
 } = require("../controllers/observation-controller");
 
+const {
+  getEncounters,
+  getEncounter,
+  createNewEncounter,
+  updateExistingEncounter,
+} = require("../controllers/encounter-controller");
+
 // Initialize Express router
 const router = express.Router();
 
@@ -69,6 +76,7 @@ router.get("/observations/:id", getObservationById);
 
 // GET /api/fhir/observations/patient/:patientId
 // route to get observations by patient id
+// tested and working
 router.get("/observations/patient/:patientId", getObservationsByPatientId);
 
 // GET /api/fhir/observations/patient/:patientId/date/:startDate/:endDate
@@ -85,5 +93,30 @@ router.post("/observations", createObservation);
 // PUT /api/fhir/observations/:id
 // route to update an observation
 router.put("/observations/:id", updateObservation);
+
+
+
+// Encounter routes
+
+// GET /api/fhir/encounters
+// route to get all encounters from the FHIR server
+router.get("/encounters", getEncounters);
+
+// GET /api/fhir/encounters/:id
+// route to get an encounter by id
+router.get("/encounters/:id", getEncounter);
+
+// POST /api/fhir/encounters
+// route to create a new encounter
+router.post("/encounters", createNewEncounter);
+
+// PUT /api/fhir/encounters/:id
+// route to update an encounter
+router.put("/encounters/:id", updateExistingEncounter);
+
+
+
+
+
 
 module.exports = router;

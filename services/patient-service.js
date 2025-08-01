@@ -44,7 +44,7 @@ const createPatientService = async (patientData) => {
 // update a patient
 const updatePatientService = async (id, patientData) => {
   try {
-    const response = await openmrsClient.put(`/patient/${id}`, patientData);
+    const response = await openmrsClient.post(`/patient/${id}`, patientData);
     return response.data;
   } catch (error) {
     console.error("Error updating patient:", error);

@@ -1,10 +1,10 @@
 const { openmrsClient } = require("../services/openmrsService");
 const { buildQueryParams } = require("../utills/validation");
-// service for observation routes
+// service for obs routes
 // get all observations from the FHIR server
 const getObservations = async (params = {}) => {
   const queryString = buildQueryParams(params);
-  const url = `/observation${queryString ? `?${queryString}` : ""}`;
+  const url = `/obs${queryString ? `?${queryString}` : ""}`;
   try {
     const response = await openmrsClient.get(url);
     return response.data;
@@ -14,21 +14,21 @@ const getObservations = async (params = {}) => {
   }
 };
 
-// get observation by id
+// get obs by id
 const getObservationById = async (id) => {
   try {
-    const response = await openmrsClient.get(`/observation/${id}`);
+    const response = await openmrsClient.get(`/obs/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching observation by id:", error);
+    console.error("Error fetching obs by id:", error);
     throw error;
   }
 };
 
-// get observation by patient id
+// get obs by patient id
 const getObservationsByPatientId = async (patientId) => {
   try {
-    const response = await openmrsClient.get(`/observation?patient=${patientId}`);
+    const response = await openmrsClient.get(`/obs?patient=${patientId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching observations by patient id:", error);
@@ -36,7 +36,7 @@ const getObservationsByPatientId = async (patientId) => {
   }
 };
 
-// get observation by patient id and date range
+// get obs by patient id and date range
 const getObservationsByPatientIdAndDateRange = async (
   patientId,
   startDate,
@@ -44,7 +44,7 @@ const getObservationsByPatientIdAndDateRange = async (
 ) => {
   try {
     const response = await openmrsClient.get(
-      `/observation?patient=${patientId}&date=${startDate}&date=${endDate}`
+      `/obs?patient=${patientId}&date=${startDate}&date=${endDate}`
     );
     return response.data;
   } catch (error) {
@@ -53,24 +53,24 @@ const getObservationsByPatientIdAndDateRange = async (
   }
 };
 
-// create observation
-const createObservation = async (observation) => {
+// create obs
+const createObservation = async (obs) => {
   try {
-    const response = await openmrsClient.post(`/observation`, observation);
+    const response = await openmrsClient.post(`/obs`, obs);
     return response.data;
   } catch (error) {
-    console.error("Error creating observation:", error);
+    console.error("Error creating obs:", error);
     throw error;
   }
 };
 
-// update observation
-const updateObservation = async (id, observation) => {
+// update obs
+const updateObservation = async (id, obs) => {
   try {
-    const response = await openmrsClient.put(`/observation/${id}`, observation);
+    const response = await openmrsClient.put(`/obs/${id}`, obs);
     return response.data;
   } catch (error) {
-    console.error("Error updating observation:", error);
+    console.error("Error updating obs:", error);
     throw error;
   }
 };

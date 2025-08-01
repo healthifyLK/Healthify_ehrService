@@ -52,6 +52,7 @@ const getPractitionerByIdService = async (providerUuid) => {
 // Tested and working
 const createPractitionerService = async (practitionerData) => {
   try {
+    console.log("practitionerData", practitionerData);
     //  Create the person first
     const personPayload = {
       names: [
@@ -61,7 +62,7 @@ const createPractitionerService = async (practitionerData) => {
         },
       ],
       gender: practitionerData.gender,
-      birthDate: practitionerData.birthDate,
+      birthdate: practitionerData.birthdate,
       addresses: practitionerData.addresses || [],
     };
 
@@ -73,6 +74,7 @@ const createPractitionerService = async (practitionerData) => {
     const providerPayload = {
       person: personUuid,
       identifier: practitionerData.identifier,
+      attributes: practitionerData.attributes || [],
     };
     const providerResponse = await openmrsClient.post(
       "/provider",
